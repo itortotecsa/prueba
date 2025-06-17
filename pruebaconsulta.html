@@ -1,0 +1,28 @@
+<form onsubmit="enviar(event)">
+  <input type="text" id="albaran" placeholder="Introduce el número de albarán" required>
+  <button type="submit">Consultar</button>
+</form>
+<div id="respuesta"></div>
+
+<script>
+function enviar(e) {
+  e.preventDefault();
+  const albaran = document.getElementById("albaran").value;
+
+  fetch("https://bb30-85-51-35-3.ngrok-free.app/chat", {  // 🔁 OJO: aquí añadimos /chat
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ mensaje: albaran })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("respuesta").innerText = data.respuesta;
+  })
+  .catch(err => {
+    console.error("Error:", err);
+    document.getElementById("respuesta").innerText = "❌ Error al conectar.";
+  });
+}
+</script>
